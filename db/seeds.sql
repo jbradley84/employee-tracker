@@ -29,4 +29,4 @@ VALUES
 ('Vivian', 'Vanderpuss', 8, null),
 ('Brooke Lynn', 'Hytes', 7, null),
 ('Traci', 'Melchor', 5, null),
-('Brad', 'Goreski', 1);
+('Brad', 'Goreski', 1, null);
