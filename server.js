@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
+const { restoreDefaultPrompts } = require('inquirer');
 
 
 // connect to database
@@ -157,18 +158,18 @@ function updateRole() {
             choices: function() {
                //console.log(rows);
                let emplChoices = [];
-               for (let i = 0; i < rows.length; i++) {
-                  emplChoices.push(rows[i].first_name + " " + rows[i].last_name);
-               }
+               rows.forEach((rows) => {
+                  emplChoices.push(rows.first_name + ' ' + rows.last_name);
+               });
                //console.log(emplChoices);
                return emplChoices;
             }
          }
       ])
       .then(function (response) {
-         //console.log(response);
+         console.log(response);
          const employee = response.employeeName;
-         //console.log(employee);
+         console.log(employee);
 
          db.query("SELECT * FROM role", function (err, rows) {
             inquirer.prompt([
@@ -178,9 +179,9 @@ function updateRole() {
                   message: "Which role do you want to assign the selected employee?",
                   choices: function() {
                      let roleChoices = [];
-                     for (let n = 0; n < rows.length; n++) {
-                        roleChoices.push(rows[n].title);
-                     }
+                    rows.forEach((rows) => {
+                     roleChoices.push(rows.title);
+                    });
                      //console.log(roleChoices);
                      return roleChoices;
                   }
@@ -189,15 +190,28 @@ function updateRole() {
             .then(function (response) {
                //console.log(response);
                const newRole = response.role;
-               console.log(newRole);
+               //console.log(newRole);
 
                db.query(`
-               UPDATE employee e 
-               SET e.role_id = ?
-               WHERE `)
-            })
-         })
-      })
+               SELECT * FROM role
+               WHERE title = ?`, [newRole],
+               function (err, rows) {
+                  if (err) throw err;
+                  let roleId = rows[0].id;
+
+                  let query = `
+                  UPDATE employee SET role_id = ?
+                  WHERE CONCAT(first_name, ' ', last_name) = ?`;
+                  let values = [parseInt(roleId), employee];
+
+                  db.query(query, values, function (err, rows, fields) {
+                     console.log("Employee role updated!");
+                  });
+                  allEmployees();
+               });
+            });
+         });
+      });
    });
 }
 
