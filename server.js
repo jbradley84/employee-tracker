@@ -192,7 +192,7 @@ function updateRole() {
 // VIEW ALL ROLES
 function allRoles() {
    console.log('VIEW ALL ROLES');
-   const query = "SELECT role.id, role.title, department.name, role.salary FROM role LEFT JOIN department ON role.department_id = department.id";
+   const query = "SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department ON role.department_id = department.id";
    db.query(query, function (err, rows) {
       if (err) throw err;
       console.table(rows);
