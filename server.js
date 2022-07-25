@@ -294,7 +294,7 @@ function allDepartments() {
    const query = "SELECT * FROM department";
    db.query(query, function (err, rows) {
       if (err) throw err;
-      console.table("All Departments:", rows);
+      console.table(rows);
       hr_menu();
    });
 }
@@ -318,7 +318,7 @@ function addDepartment() {
          db.query(query, function (err, rows) {
             if (err) throw err;
             console.log("New department added to table!");
-            console.table("All Departments", rows);
+            console.table(rows);
             hr_menu();
          });
       });
