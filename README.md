@@ -5,9 +5,9 @@
 
 A command-line driven application that acts as a simple human resources management tool. It allows a user to organize employees by department and role. Users can create new employees, new roles, or new departments. Users can also update employee roles.
 
-View a demo of the application [here](./assets/images/employee-tracker_screenshot.png)
+View a demo of the application [here]()
 
-![ScreenShot]()
+![ScreenShot](./assets/images/employee-tracker_screenshot.png)
 
 
 ## Built With
